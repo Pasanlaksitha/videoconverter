@@ -23,10 +23,11 @@ def convert_video(input_file, output_file):
         print(f"Conversion successful. Output file: {output_file}")
     except subprocess.CalledProcessError as e:
         print(f"Error during conversion: {e}")
-
+    return e
 
 if __name__ == "__main__":
     input_file = input()
     output_file = 'output.mp4'
 
-    convert_video(input_file, output_file)
+    error = convert_video(input_file, output_file)
+    print()
