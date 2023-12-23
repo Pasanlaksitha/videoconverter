@@ -5,6 +5,15 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 
 class VideoConverterApp:
+    """
+    A class representing a video converter application.
+
+    Attributes:
+        master (tk.Tk): The root window of the application.
+        input_files (list): A list of input video files.
+        output_folder (tk.StringVar): The output folder path.
+    """
+
     def __init__(self, master):
         self.master = master
         self.master.title("MKV to MP4 Converter")
@@ -16,6 +25,9 @@ class VideoConverterApp:
         self.create_widgets()
 
     def create_widgets(self):
+        """
+        Create the GUI widgets for the application.
+        """
         tk.Label(self.master, text="Input Files:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
         self.file_listbox = tk.Listbox(self.master, selectmode=tk.MULTIPLE, height=5, width=40)
         self.file_listbox.grid(row=0, column=1, padx=5, pady=5, sticky="w")
@@ -28,16 +40,25 @@ class VideoConverterApp:
         tk.Button(self.master, text="Convert", command=self.convert_videos).grid(row=2, column=0, columnspan=3, pady=10)
 
     def browse_input_files(self):
+        """
+        Open a file dialog to select input video files and add them to the file listbox.
+        """
         files = filedialog.askopenfilenames(title="Select Video Files", filetypes=[("Video Files", "*.mkv;*.avi")])
         for file in files:
             self.file_listbox.insert(tk.END, file)
 
     def browse_output_folder(self):
+        """
+        Open a folder dialog to select the output folder and set it as the output folder path.
+        """
         folder = filedialog.askdirectory()
         if folder:
             self.output_folder.set(folder)
 
     def convert_videos(self):
+        """
+        Convert the selected input video files to MP4 format using FFmpeg.
+        """
         self.input_files = self.file_listbox.get(0, tk.END)
         output_folder = self.output_folder.get()
 
@@ -46,6 +67,13 @@ class VideoConverterApp:
             threading.Thread(target=self.convert_video_thread, args=(input_file, output_file)).start()
 
     def convert_video_thread(self, input_file, output_file):
+        """
+        Convert a single video file to MP4 format using FFmpeg in a separate thread.
+
+        Args:
+            input_file (str): The path of the input video file.
+            output_file (str): The path of the output MP4 file.
+        """
         try:
             command = [
                 'ffmpeg',
