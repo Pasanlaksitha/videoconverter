@@ -36,7 +36,6 @@ class VideoConverterApp:
         tk.Label(self.master, text="Output Folder:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
         tk.Entry(self.master, textvariable=self.output_folder, width=30).grid(row=1, column=1, padx=5, pady=5, sticky="w")
         tk.Button(self.master, text="Browse", command=self.browse_output_folder).grid(row=1, column=2, padx=5, pady=5, sticky="w")
-
         tk.Button(self.master, text="Convert", command=self.convert_videos).grid(row=2, column=0, columnspan=3, pady=10)
 
     def browse_input_files(self):

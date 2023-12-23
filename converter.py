@@ -41,11 +41,11 @@ def convert_video(input_file, output_file):
             speed_ = speed.search(output_line)
 
             if frame_:
-                frame = int(frame_.group(1))
+                frame = frame_.group(1)
                 print(f"Frame: {frame}")
 
             if fps_:
-                fps = float(fps_.group(1))
+                fps = fps_.group(1)
                 print(f"FPS: {fps}")
 
             if time_:
@@ -57,7 +57,7 @@ def convert_video(input_file, output_file):
                 print(f"Bitrate: {bitrate} kbits/s")
 
             if speed_:
-                speed = float(speed_.group(1))
+                speed = float(speed_.group(1).rstrip('x'))
                 print(f"Speed: {speed}x")
         process.wait()
 
