@@ -1,6 +1,6 @@
 import subprocess
 import os
-
+import re
 
 def convert_video(input_file, output_file):
     if not os.path.exists(input_file):
@@ -20,13 +20,45 @@ def convert_video(input_file, output_file):
 # live print converting video to mp4
     try:
         process = subprocess.Popen(command, stderr=subprocess.PIPE, text=True)
-        
+
+        #duration = re.compile(r'DURATION: ([\d:.]+)')
+        frames = re.compile(r'frame=\s+(\d+)')
+        fps = re.compile(r'fps=([\d.]+)')
+        time = re.compile(r'time=([\d:.]+)')
+        bitrate = re.compile(r'bitrate=([\d.]+kbits/s)')
+        speed = re.compile(r'speed=([\d.]+x)')
         while True:
             output_line = process.stderr.readline()
             if output_line == '' and process.poll() is not None:
                 break
-            print(output_line.strip())  # Adjust as needed
+            #print(output_line.strip())
 
+
+            frame_ = frames.search(output_line)
+            fps_ = fps.search(output_line)
+            time_ = time.search(output_line)
+            bitrate_ = bitrate.search(output_line)
+            speed_ = speed.search(output_line)
+
+            if frame_:
+                frame = int(frame_.group(1))
+                print(f"Frame: {frame}")
+
+            if fps_:
+                fps = float(fps_.group(1))
+                print(f"FPS: {fps}")
+
+            if time_:
+                time_value = time_.group(1)
+                print(f"Time: {time_value}")
+
+            if bitrate_:
+                bitrate = float(bitrate_.group(1))
+                print(f"Bitrate: {bitrate} kbits/s")
+
+            if speed_:
+                speed = float(speed_.group(1))
+                print(f"Speed: {speed}x")
         process.wait()
 
         if process.returncode == 0:
