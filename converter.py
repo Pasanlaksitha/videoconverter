@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import re
 
 def convert_video(input_file, output_file):
@@ -22,43 +23,47 @@ def convert_video(input_file, output_file):
         process = subprocess.Popen(command, stderr=subprocess.PIPE, text=True)
 
         #duration = re.compile(r'DURATION: ([\d:.]+)')
-        frames = re.compile(r'frame=\s+(\d+)')
-        fps = re.compile(r'fps=([\d.]+)')
-        time = re.compile(r'time=([\d:.]+)')
-        bitrate = re.compile(r'bitrate=([\d.]+kbits/s)')
-        speed = re.compile(r'speed=([\d.]+x)')
+        frame_pattern = re.compile(r'frame=\s+(\d+)')
+        fps_pattern = re.compile(r'fps=([\d.]+)')
+        time_pattern = re.compile(r'time=([\d:.]+)')
+        bitrate_pattern = re.compile(r'bitrate=([\d.]+kbits/s)')
+        speed_pattern = re.compile(r'speed=([\d.]+x)')
+
+        # Read and print output in real-time
         while True:
             output_line = process.stderr.readline()
             if output_line == '' and process.poll() is not None:
                 break
+
             #print(output_line.strip())
 
+            frame_match = frame_pattern.search(output_line)
+            fps_match = fps_pattern.search(output_line)
+            time_match = time_pattern.search(output_line)
+            bitrate_match = bitrate_pattern.search(output_line)
+            speed_match = speed_pattern.search(output_line)
 
-            frame_ = frames.search(output_line)
-            fps_ = fps.search(output_line)
-            time_ = time.search(output_line)
-            bitrate_ = bitrate.search(output_line)
-            speed_ = speed.search(output_line)
-
-            if frame_:
-                frame = frame_.group(1)
+            if frame_match:
+                frame = frame_match.group(1)
                 print(f"Frame: {frame}")
 
-            if fps_:
-                fps = fps_.group(1)
-                print(f"FPS: {fps}")
+            if fps_match:
+                fps_value = fps_match.group(1)
+                print(f"FPS: {fps_value}")
 
-            if time_:
-                time_value = time_.group(1)
+            if time_match:
+                time_value = time_match.group(1)
                 print(f"Time: {time_value}")
 
-            if bitrate_:
-                bitrate = float(bitrate_.group(1))
-                print(f"Bitrate: {bitrate} kbits/s")
+            # if bitrate_match:
+            #     bitrate = float(bitrate_match.group(1))
+            #     print(f"Bitrate: {bitrate} kbits/s")
 
-            if speed_:
-                speed = float(speed_.group(1).rstrip('x'))
+            if speed_match:
+                speed_str = speed_match.group(1)
+                speed = float(speed_str.rstrip('x'))
                 print(f"Speed: {speed}x")
+
         process.wait()
 
         if process.returncode == 0:

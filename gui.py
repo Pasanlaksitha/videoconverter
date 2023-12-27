@@ -5,14 +5,6 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 
 class VideoConverterApp:
-    """
-    A class representing a video converter application.
-
-    Attributes:
-        master (tk.Tk): The root window of the application.
-        input_files (list): A list of input video files.
-        output_folder (tk.StringVar): The output folder path.
-    """
 
     def __init__(self, master):
         self.master = master
@@ -95,5 +87,6 @@ class VideoConverterApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.iconbitmap("icon.ico")
     app = VideoConverterApp(root)
     root.mainloop()
