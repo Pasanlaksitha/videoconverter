@@ -22,7 +22,7 @@ def convert_video(input_file, output_file):
     try:
         process = subprocess.Popen(command, stderr=subprocess.PIPE, text=True)
 
-        #duration = re.compile(r'DURATION: ([\d:.]+)')
+        duration = re.compile(r'DURATION: ([\d:.]+)')
         frame_pattern = re.compile(r'frame=\s+(\d+)')
         fps_pattern = re.compile(r'fps=([\d.]+)')
         time_pattern = re.compile(r'time=([\d:.]+)')
@@ -88,4 +88,4 @@ if __name__ == "__main__":
     output_file = 'output.mp4'
 
     error = convert_video(input_file, output_file)
-    print()
+    print(error)
