@@ -36,7 +36,7 @@ def convert_video(input_file, output_file):
                 break
 
             #print(output_line.strip())
-
+            duration_match = re.compile(r'DURATION: ([\d:.]+)')
             frame_match = frame_pattern.search(output_line)
             fps_match = fps_pattern.search(output_line)
             time_match = time_pattern.search(output_line)
@@ -46,6 +46,10 @@ def convert_video(input_file, output_file):
             if frame_match:
                 frame = frame_match.group(1)
                 print(f"Frame: {frame}")
+            
+            if duration_match:
+                duration = frame_match.group(1)
+                print(f"Frame: {duration}")
 
             if fps_match:
                 fps_value = fps_match.group(1)
