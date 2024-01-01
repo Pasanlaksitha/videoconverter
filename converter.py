@@ -4,6 +4,16 @@ import sys
 import re
 
 def convert_video(input_file, output_file):
+    """
+    Converts a video file to MP4 format using FFmpeg.
+
+    Parameters:
+    - input_file (str): Path to the input video file.
+    - output_file (str): Path to the output MP4 file.
+
+    Returns:
+    None
+    """
     if not os.path.exists(input_file):
         print(f"Error: Input file '{input_file}' not found.")
         return
