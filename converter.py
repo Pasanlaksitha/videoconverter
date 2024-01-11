@@ -26,7 +26,7 @@ def convert_video(input_file, output_file):
     return e
 
 if __name__ == "__main__":
-    input_file = input()
+    input_file = input("Enter the input file name: ")
     output_file = 'output.mp4'
 
     error = convert_video(input_file, output_file)
