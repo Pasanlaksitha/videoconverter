@@ -75,7 +75,7 @@ class VideoConverterApp:
                 '-strict', 'experimental',
                 output_file
             ]
-        
+
         try:
             output = subprocess.run(command, check=True)
             result = output.decode('utf-8').split('\n')
