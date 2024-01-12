@@ -2,7 +2,7 @@ import subprocess
 import os
 import threading
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import filedialog
 
 class VideoConverterApp:
 
@@ -65,8 +65,7 @@ class VideoConverterApp:
             input_file (str): The path of the input video file.
             output_file (str): The path of the output MP4 file.
         """
-        try:
-            command = [
+        command = [
                 'ffmpeg',
                 '-i', input_file,
                 '-c:v', 'libx264',
@@ -76,7 +75,8 @@ class VideoConverterApp:
                 '-strict', 'experimental',
                 output_file
             ]
-
+        
+        try:
             output = subprocess.run(command, check=True)
             result = output.decode('utf-8').split('\n')
             print(result)
